@@ -1,11 +1,9 @@
 import { createStore } from "vuex";
 import mutations from "./mutations";
 import actions from "./actions";
+import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
-  plugins: [
-    //
-  ],
   state: {
     // folders: [],
     counter: 10,
@@ -20,4 +18,9 @@ export default createStore({
   },
   mutations,
   actions,
+  plugins: [
+    createPersistedState({
+      paths: ["counter"],
+    }),
+  ],
 });

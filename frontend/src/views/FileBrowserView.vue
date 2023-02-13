@@ -1,9 +1,12 @@
 <template>
   <v-main style="margin: 2%">
+    
     <aside style="margin-right: 20%;">
-      <v-toolbar flat >
-        <v-toolbar-title >{{currentDirectory}}</v-toolbar-title>
-      </v-toolbar>
+      <!-- <a v-if="currentDirectory.length >=  4"></a> -->
+      <a v-for="(dir, index) in currentDirectory" :key="dir">
+        <v-btn elevation="0" @click="moveDirectory(index)">{{ dir.name }} / </v-btn>
+      </a>
+      <v-divider></v-divider>
       <v-table density="compact">
         <thead>
           <tr>
@@ -24,39 +27,49 @@
             :key="folder"
             @click="enterFolder(folder.id)"
           >
-            <td>{{ folder.name }}</td>
+            <!-- <v-btn elevation="0">
+            </v-btn> -->
+            
+            <v-btn elevation="0">
+              <v-icon v-if="folder.type == 0">mdi-folder</v-icon>
+              <v-icon v-if="folder.type == 1">mdi-file</v-icon>
+              {{ folder.name }}
+            </v-btn>
+            <v-divider></v-divider>
             <td>{{ folder.createdAt }}</td>
             <td>{{ folder.modifiedAt }}</td>
+            <v-divider></v-divider>
+
+            <!-- <v-btn elevation="0">{{ folder.name }}</v-btn>
+            <td>{{ folder.createdAt }}</td>
+            <td>{{ folder.modifiedAt }}</td> -->
           </tr>
         </tbody>
       </v-table>
-      <!-- <ul>
-        <li v-for="folder in folders" :key="folder">
-          <div>
-            {{ folder.name }}
-            <v-icon icon="mdi-trash-can-outline" @click="removeItem(folder.id)"/>
-          </div>
-        </li>
-      </ul> -->
     </aside>
   </v-main>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       Error : false,
-      currentDirectory: '/ ',
+      currentDirectory: [{id:null, name:''}],
       folders: null,
+      isfolderPlus: false,
     }
   },
   computed:{
+    dateFormatted(date){
+      var d = new Date(date);
+      var formattedDate = d.getDate;
+      return formattedDate;
+    }
   },
   created() {
     this.setUpData();
-    // const store = useStore();
-    // this.folders = store.folders;
   },
   methods: {
     setUpData: function(){
@@ -66,7 +79,10 @@ export default {
       })
     },
     enterFolder: function(id){
-      this.currentDirectory += this.findFolderForId(id).name +" / ";
+      if (this.findFolderForId(id).type == 1){
+        return;
+      }
+      this.currentDirectory.push({id:this.findFolderForId(id).id,name:this.findFolderForId(id).name});
       this.$axios.get('/finder/folders/'+id).then((data)=>{
         this.folders = data.data;
         console.log(this.folders);
@@ -126,7 +142,30 @@ export default {
           this.folders.splice(i,1);
         }
       }
-    }
+    },
+    moveDirectory: function(index) {
+      var clickedDirectory = this.currentDirectory[index];
+      console.log(clickedDirectory);
+
+      var url = '/finder/folders/';
+      if (clickedDirectory.id == null){
+        url += '65543';
+      }
+      else{
+        url += (clickedDirectory.id);
+      }
+      this.$axios.get(url).then((data)=>{
+        this.folders = data.data;
+        console.log(this.folders)
+      })
+      for(let i = this.currentDirectory.length ; i >= 0; --i){
+        if (i > index){
+          this.currentDirectory.splice(i, 1);
+        }
+      }
+      
+    },
+    
   },
 }
 </script>

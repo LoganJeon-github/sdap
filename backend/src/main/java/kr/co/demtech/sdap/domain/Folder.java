@@ -10,4 +10,5 @@ public class Folder {
   private int parentId;
   private Timestamp createdAt;
   private Timestamp modifiedAt;
+  private int type;
 }

@@ -5,6 +5,9 @@
     <if test="parentId != 65534">
       where "parentId" = #{parentId}
     </if>
+    <if test="parentId == 65534">
+      where "parentId" is null
+    </if>
     order by id
   </select>
 
