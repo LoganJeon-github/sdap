@@ -12,14 +12,13 @@ spring:
     username: postgres
     password: post123!
 
-  web:
-    resources:
-      static-locations:
-        - file:src/main/resources/static
-
   devtools:
     livereload:
       enabled: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
 
 mybatis:
   type-aliases-package: kr.co.demtech.sdap.domain
