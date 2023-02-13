@@ -46,7 +46,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_
   \*********************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue */ \"./src/App.vue\");\n/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ \"./src/router/index.js\");\n/* harmony import */ var _plugins_vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./plugins/vuetify */ \"./src/plugins/vuetify.js\");\n/* harmony import */ var _plugins_webfontloader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./plugins/webfontloader */ \"./src/plugins/webfontloader.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var vuefinder_dist_vuefinder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuefinder/dist/vuefinder */ \"./node_modules/vuefinder/dist/vuefinder.js\");\n\n\n\n\n\n\n\n(0,_plugins_webfontloader__WEBPACK_IMPORTED_MODULE_4__.loadFonts)();\nconst app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\napp.config.globalProperties.$axios = (axios__WEBPACK_IMPORTED_MODULE_5___default());\napp.use(vuefinder_dist_vuefinder__WEBPACK_IMPORTED_MODULE_6__[\"default\"]).use(_router__WEBPACK_IMPORTED_MODULE_2__[\"default\"]).use(_plugins_vuetify__WEBPACK_IMPORTED_MODULE_3__[\"default\"]).mount(\"#app\");\n\n//# sourceURL=webpack://front/./src/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n/* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue */ \"./src/App.vue\");\n/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./router */ \"./src/router/index.js\");\n/* harmony import */ var _plugins_vuetify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./plugins/vuetify */ \"./src/plugins/vuetify.js\");\n/* harmony import */ var _plugins_webfontloader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./plugins/webfontloader */ \"./src/plugins/webfontloader.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var vuefinder_dist_vuefinder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuefinder/dist/vuefinder */ \"./node_modules/vuefinder/dist/vuefinder.js\");\n/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./store */ \"./src/store/index.js\");\n\n\n\n\n\n\n\n\n(0,_plugins_webfontloader__WEBPACK_IMPORTED_MODULE_4__.loadFonts)();\nconst app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_1__[\"default\"]);\napp.config.globalProperties.$axios = (axios__WEBPACK_IMPORTED_MODULE_5___default());\napp.use(vuefinder_dist_vuefinder__WEBPACK_IMPORTED_MODULE_6__[\"default\"]).use(_router__WEBPACK_IMPORTED_MODULE_2__[\"default\"]).use(_plugins_vuetify__WEBPACK_IMPORTED_MODULE_3__[\"default\"]).use(_store__WEBPACK_IMPORTED_MODULE_7__[\"default\"]).mount(\"#app\");\n\n//# sourceURL=webpack://front/./src/main.js?");
 
 /***/ }),
 
@@ -77,6 +77,36 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ \"./node_modules/vue-router/dist/vue-router.mjs\");\n/* harmony import */ var _views_HomeView_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../views/HomeView.vue */ \"./src/views/HomeView.vue\");\n\n\nconst routes = [{\n  path: \"/\",\n  name: \"home\",\n  component: _views_HomeView_vue__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n}, {\n  path: \"/about\",\n  name: \"about\",\n  // route level code-splitting\n  // this generates a separate chunk (about.[hash].js) for this route\n  // which is lazy-loaded when the route is visited.\n  component: () => __webpack_require__.e(/*! import() | about */ \"about\").then(__webpack_require__.bind(__webpack_require__, /*! ../views/AboutView.vue */ \"./src/views/AboutView.vue\"))\n}, {\n  path: \"/excel\",\n  name: \"excel\",\n  component: () => __webpack_require__.e(/*! import() */ \"src_views_ExcelView_vue\").then(__webpack_require__.bind(__webpack_require__, /*! ../views/ExcelView.vue */ \"./src/views/ExcelView.vue\"))\n}, {\n  path: \"/file-browser\",\n  name: \"file-browser\",\n  component: () => __webpack_require__.e(/*! import() */ \"src_views_FileBrowserView_vue\").then(__webpack_require__.bind(__webpack_require__, /*! ../views/FileBrowserView.vue */ \"./src/views/FileBrowserView.vue\"))\n}];\nconst router = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createRouter)({\n  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createWebHistory)(\"/\"),\n  routes\n});\n/* harmony default export */ __webpack_exports__[\"default\"] = (router);\n\n//# sourceURL=webpack://front/./src/router/index.js?");
+
+/***/ }),
+
+/***/ "./src/store/actions.js":
+/*!******************************!*\
+  !*** ./src/store/actions.js ***!
+  \******************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({});\n\n//# sourceURL=webpack://front/./src/store/actions.js?");
+
+/***/ }),
+
+/***/ "./src/store/index.js":
+/*!****************************!*\
+  !*** ./src/store/index.js ***!
+  \****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ \"./node_modules/vuex/dist/vuex.esm-bundler.js\");\n/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mutations */ \"./src/store/mutations.js\");\n/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ \"./src/store/actions.js\");\n\n\n\n/* harmony default export */ __webpack_exports__[\"default\"] = ((0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({\n  plugins: [\n    //\n  ],\n  state: {\n    // folders: [],\n    counter: 10\n  },\n  getters: {\n    // folderItems(state) {\n    //   return state.folders;\n    // },\n    items(state) {\n      return state.counter;\n    }\n  },\n  mutations: _mutations__WEBPACK_IMPORTED_MODULE_0__[\"default\"],\n  actions: _actions__WEBPACK_IMPORTED_MODULE_1__[\"default\"]\n}));\n\n//# sourceURL=webpack://front/./src/store/index.js?");
+
+/***/ }),
+
+/***/ "./src/store/mutations.js":
+/*!********************************!*\
+  !*** ./src/store/mutations.js ***!
+  \********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  setCounter(state, value) {\n    state.counter = value;\n  }\n});\n\n//# sourceURL=webpack://front/./src/store/mutations.js?");
 
 /***/ }),
 

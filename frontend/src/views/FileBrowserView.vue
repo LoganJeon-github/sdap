@@ -48,17 +48,15 @@ export default {
     return {
       Error : false,
       currentDirectory: '/ ',
-      // folders: [
-      //   { id: 0, name: "Project A", parentId: null },
-      //   { id: 1, name: "Project B", parentId: null},
-      //   { id: 2, name: "Project C", parentId: 0 },
-      //   { id: 3, name: "Project D", parentId: 2 },
-      // ],
       folders: null,
     }
   },
+  computed:{
+  },
   created() {
     this.setUpData();
+    // const store = useStore();
+    // this.folders = store.folders;
   },
   methods: {
     setUpData: function(){
