@@ -3,12 +3,27 @@
   <select id="getFolders" resultType="Folder">
     select * from folders 
     <if test="parentId != 65534">
-      where "parentId" = #{parentId}
+      where parent_id = #{parentId}
     </if>
     <if test="parentId == 65534">
-      where "parentId" is null
+      where parent_id is null
     </if>
     order by id
   </select>
 
+  <insert id="addFolder">
+    INSERT INTO
+      folders
+      (name, parent_id, created_at, modified_at, type)
+    VALUES
+      (#{name}, #{parentId}, #{createdAt}, #{modifiedAt}, #{type})
+  </insert>
+
+  <select id="fetchFolder" resultType="Folder">
+    SELECT 
+      * 
+    FROM
+      folders
+    WHERE name = #{name}
+  </select>
 </mapper>
