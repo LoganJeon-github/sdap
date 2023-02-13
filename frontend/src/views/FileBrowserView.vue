@@ -1,8 +1,14 @@
 <template>
   <v-main style="margin: 2%">
+    <v-dialog v-if="isCreateFolderModal == true" width="auto"></v-dialog>
     
     <aside style="margin-right: 20%;">
       <!-- <a v-if="currentDirectory.length >=  4"></a> -->
+      <v-btn 
+        elevation="0" 
+        icon="mdi-folder-plus"
+        @click="isCreateFolderModal = !isCreateFolderModal"
+      ></v-btn>
       <a v-for="(dir, index) in currentDirectory" :key="dir">
         <v-btn elevation="0" @click="moveDirectory(index)">{{ dir.name }} / </v-btn>
       </a>
@@ -58,7 +64,7 @@ export default {
       Error : false,
       currentDirectory: [{id:null, name:''}],
       folders: null,
-      isfolderPlus: false,
+      isCreateFolderModal: false,
     }
   },
   computed:{
