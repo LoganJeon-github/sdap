@@ -6,9 +6,16 @@ import { loadFonts } from "./plugins/webfontloader";
 import axios from "axios";
 import VueFinder from "vuefinder/dist/vuefinder";
 import store from "./store";
+import VueExcelEditor from "vue3-excel-editor";
 
 loadFonts();
 const app = createApp(App);
 app.config.globalProperties.$axios = axios;
 
-app.use(VueFinder).use(router).use(vuetify).use(store).mount("#app");
+app
+  .use(VueFinder)
+  .use(router)
+  .use(vuetify)
+  .use(store)
+  .use(VueExcelEditor)
+  .mount("#app");

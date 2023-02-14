@@ -20,9 +20,13 @@ public class FinderService {
     return folders;
   }
 
-  public Folder FetchFolder(String name){
+  public Folder FetchFolder(String name) {
     Folder folder = finderMapper.fetchFolder(name);
-    
+
     return folder;
+  }
+
+  public void addFolder(String name, int parentId) {
+    finderMapper.addFolder(name, parentId);
   }
 }

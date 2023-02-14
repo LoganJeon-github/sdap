@@ -4,17 +4,25 @@
       width="auto"
       v-model="isCreateFolderDialog"
     >
-    <template v-slot:activator="{ props }">
-      <v-btn
-        color="primary"
-        v-bind="props"
-      >
-        Open Dialog
-      </v-btn>
+    <template >
     </template>
+    <v-card style=" width: 343px; height: 184px;" v-if="isCreateFolderDialog">
+      <v-card-text>
+        새 폴더
+      </v-card-text>
+      <v-text-field style="padding: 4px 20px 0px;"
+        v-model="createFolderName">
+      </v-text-field>
+      <v-btn-group style="margin-bottom: 10px; margin-left: 10px;">
+        <v-card-actions style="width: 64px;">
+          <v-btn color="primary" block @click="createFolder">만들기</v-btn>
+        </v-card-actions>
+        <v-card-actions style="width: 64px;">
+          <v-btn block @click="isCreateFolderDialog = false"> 취소</v-btn>
+        </v-card-actions>
+      </v-btn-group>
+    </v-card>
     </v-dialog>
-    
-    
     <aside style="margin-right: 20%;">
       <!-- <a v-if="currentDirectory.length >=  4"></a> -->
       <v-btn 
@@ -29,7 +37,7 @@
       <v-table density="compact">
         <thead>
           <tr>
-            <th>
+            <th >
               Name
             </th>
             <th>
@@ -48,32 +56,20 @@
           >
             <!-- <v-btn elevation="0">
             </v-btn> -->
-            
-            <v-btn elevation="0">
-              <v-icon v-if="folder.type == 0">mdi-folder</v-icon>
-              <v-icon v-if="folder.type == 1">mdi-file</v-icon>
-              {{ folder.name }}
-            </v-btn>
-            <v-divider></v-divider>
-            <td >{{ folder.createdAt }}</td>
-            <td>{{ folder.modifiedAt }}</td>
-            <v-divider></v-divider>
-
-            <!-- <v-btn elevation="0">{{ folder.name }}</v-btn>
+            <td>
+              <v-btn class="btn_case" elevation="0" flat>
+                <v-icon v-show="folder.type == 0">mdi-folder</v-icon>
+                <v-icon v-show="folder.type == 1">mdi-file</v-icon>
+                {{ folder.name }}
+              </v-btn>
+            </td>
             <td>{{ folder.createdAt }}</td>
-            <td>{{ folder.modifiedAt }}</td> -->
+            <td>{{ folder.modifiedAt }}</td>
           </tr>
         </tbody>
       </v-table>
     </aside>
-    <v-card v-if="isCreateFolderDialog">
-      <v-card-text>
-        Hello Dialog
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary"  block @click="isCreateFolderDialog = false"> Close Dialog</v-btn>
-      </v-card-actions>
-    </v-card>
+    
   </v-main>
 </template>
 
@@ -83,15 +79,16 @@ export default {
   data() {
     return {
       Error : false,
-      currentDirectory: [{id:null, name:''}],
+      currentDirectory: [{id:0, name:''}],
       folders: null,
       isCreateFolderDialog: false,
+      createFolderName: "제목없는 폴더",
     }
   },
   computed:{
   },
   created() {
-    this.setUpData('/folders/65534');
+    this.setUpData('/folders/0');
   },
   methods: {
     setUpData: function(url){
@@ -127,6 +124,7 @@ export default {
     findFolderForName: function(name){
       for (let i = 0 ; i < this.folders.length; ++i){
         if (this.folders[i].name == name){
+          console.log(this.folders[i].name)
           return this.folders[i];
         }
       }
@@ -176,14 +174,8 @@ export default {
       var clickedDirectory = this.currentDirectory[index];
       console.log(clickedDirectory);
 
-      var url = '/folders/';
+      var url = '/folders/' + clickedDirectory.id;
       console.log(clickedDirectory.id);
-      if (clickedDirectory.id == null){
-        url += '65534';
-      }
-      else{
-        url += (clickedDirectory.id);
-      }
       this.setUpData(url);
       for(let i = this.currentDirectory.length ; i >= 0; --i){
         if (i > index){
@@ -204,7 +196,6 @@ export default {
       }
       if (parseInt(tempDate.getDate()) < 10) {
         day +=  tempDate.getDate();
-        console.log(tempDate.getDate());
       }
       else{
         day = tempDate.getDate();
@@ -213,11 +204,32 @@ export default {
                       + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
       return resultDate;
     },
+    createFolder: function(){
+      // console.log(this.createFolderName);
+      if (this.findFolderForName(this.createFolderName)){
+        // console.log('종뷁');
+        this.isCreateFolderDialog = false;
+        return;
+      }
+      // console.log(this.folders)
+      
+      var data = {}
+      data.name = this.createFolderName
+      data.parentId = this.folders[0].parentId
+      this.$axios.post('/folders/add-folder',data).then((/**response*/)=>{
+        // console.log(response);
+        var url = 'folders/' + this.folders[0].parentId
+        this.setUpData(url);
+      });
+      this.isCreateFolderDialog = false;
+    },
     
   },
 }
 </script>
 
 <style>
-
+.btn_case {
+  text-transform: none !important;
+}
 </style>

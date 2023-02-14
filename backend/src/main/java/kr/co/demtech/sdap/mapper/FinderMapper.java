@@ -12,10 +12,8 @@ import kr.co.demtech.sdap.domain.Folder;
 public interface FinderMapper {
   public List<Folder> getFolders(@Param("parentId") int parentId);
 
-  public void addFolder(@Param("name") String name
-                        ,@Param("parentId") int parentId
-                        ,@Param("createdAt") Timestamp createdAt
-                        ,@Param("modifiedAt") Timestamp modifiedAt) ;
+  public void addFolder(@Param("name") String name, @Param("parentId") int parentId);
 
   public Folder fetchFolder(@Param("name") String name);
+
 }

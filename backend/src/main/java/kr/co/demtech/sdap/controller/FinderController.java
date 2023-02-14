@@ -26,17 +26,18 @@ public class FinderController {
   @GetMapping("/{parentId}")
   public List<Folder> getFolders(@PathVariable int parentId) {
     List<Folder> folders = finderService.getFolders(parentId);
+    log.info(folders.toString());
     return folders;
   }
-  
-  @PostMapping("/add-folder")
-  public ResponseEntity<HttpStatus> addFolder(@RequestBody Folder param){
-    
-    Folder folder = finderService.FetchFolder(param.getName());
-    // if (folder == null){
-      
-    // }
 
+  @PostMapping("/add-folder")
+  public ResponseEntity<HttpStatus> addFolder(@RequestBody Folder param) {
+
+    Folder folder = finderService.FetchFolder(param.getName());
+    if (folder != null) {
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+    finderService.addFolder(param.getName(), param.getParentId());
 
     return new ResponseEntity<>(HttpStatus.CREATED);
   }

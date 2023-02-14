@@ -14,11 +14,13 @@
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vue3-excel-editor": "^1.0.17",
     "vuefinder": "^1.2.0",
     "vuetify": "^3.0.0-beta.0",
     "vuex": "^4.1.0",
     "vuex-persistedstate": "^4.1.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
