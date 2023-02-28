@@ -4,8 +4,8 @@
       width="auto"
       v-model="isCreateFolderDialog"
     >
-    <template >
-    </template>
+    <!-- <template >
+    </template> -->
     <v-card style=" width: 343px; height: 184px;" v-if="isCreateFolderDialog">
       <v-card-text>
         새 폴더
@@ -23,13 +23,45 @@
       </v-btn-group>
     </v-card>
     </v-dialog>
+    
+    <v-dialog 
+      width="auto"
+      v-model="isFileUploadDialog"
+    >
+    <!-- <template >
+    </template> -->
+    <v-card style=" width: 686px; height: 184px;" v-if="isFileUploadDialog">
+      <v-card-text>
+        파일 업로드
+      </v-card-text>
+      <v-file-input
+        style="width: 650px; border-color: blue;"
+        label="File input"
+        variant="solo"
+        @change="selectFile"
+        id="excel" />
+
+      <v-btn-group style="margin-bottom: 10px; margin-left: 10px;">
+        <v-card-actions style="width: 64px;">
+          <v-btn color="primary" block @click="submit">업로드</v-btn>
+        </v-card-actions>
+        <v-card-actions style="width: 64px;">
+          <v-btn block @click="isFileUploadDialog = false"> 취소</v-btn>
+        </v-card-actions>
+      </v-btn-group>
+    </v-card>
+    </v-dialog>
+
     <aside style="margin-right: 20%;">
-      <!-- <a v-if="currentDirectory.length >=  4"></a> -->
       <v-btn 
         elevation="0" 
         icon="mdi-folder-plus"
         @click="isCreateFolderDialog = !isCreateFolderDialog"
       ></v-btn>
+      <v-btn elevation="0"
+        icon="mdi-file-upload-outline"
+        @click="isFileUploadDialog = !isFileUploadDialog">
+      </v-btn>
       <a v-for="(dir, index) in currentDirectory" :key="dir">
         <v-btn elevation="0" @click="moveDirectory(index)">{{ dir.name }} / </v-btn>
       </a>
@@ -48,16 +80,19 @@
             </th>
           </tr>
         </thead>
+        <!-- @click="enterFolder(folder.id)" -->
+
         <tbody>
           <tr 
             v-for="folder in folders" 
             :key="folder"
-            @click="enterFolder(folder.id)"
+            @dblclick="enterFolder(folder.id)"
+            
           >
             <!-- <v-btn elevation="0">
             </v-btn> -->
             <td>
-              <v-btn class="btn_case" elevation="0" flat>
+              <v-btn class="btn_case" elevation="0" flat :background-color="colorsssssssss" >
                 <v-icon v-show="folder.type == 0">mdi-folder</v-icon>
                 <v-icon v-show="folder.type == 1">mdi-file</v-icon>
                 {{ folder.name }}
@@ -74,7 +109,7 @@
 </template>
 
 <script>
-
+import Axios from 'axios';
 export default {
   data() {
     return {
@@ -83,6 +118,9 @@ export default {
       folders: null,
       isCreateFolderDialog: false,
       createFolderName: "제목없는 폴더",
+      isFileUploadDialog: false,
+      selectedFile: null,
+      colorsssssssss:"lightslategrey",
     }
   },
   computed:{
@@ -101,18 +139,41 @@ export default {
         console.log(this.folders);
       })
     },
-    enterFolder: function(id){
-      if (this.findFolderForId(id).type == 1){
-        return;
+    async readCsv(id){
+      var fileName = this.findFolderForId(id).name
+      try {
+        this.$axios.get('/test/read' + fileName).then((data)=>{
+          console.log(data);
+
+        })
+      } catch (error) {
+        console.log(error);
       }
-      this.currentDirectory.push({id:this.findFolderForId(id).id,name:this.findFolderForId(id).name});
-      this.$axios.get('/folders/'+id).then((data)=>{
-        this.folders = data.data;
-        for( let i = 0 ; i < this.folders.length; ++i){
-          this.folders[i].createdAt = this.dateFormatter(this.folders[i].createdAt);
-          this.folders[i].modifiedAt = this.dateFormatter(this.folders[i].modifiedAt);
-        }
-      })
+    },
+    enterFolder: function(id){
+      /**
+       * file type ==1 file
+       * file type ==0 folder
+       */
+      if (this.findFolderForId(id).type == 1){
+        var fileName = this.findFolderForId(id).name
+        console.log(fileName);
+        this.$axios.get('/test/read/' + fileName).then((data)=>{
+          console.log(data.data);
+
+        })
+      }
+      else{
+        this.currentDirectory.push({id:this.findFolderForId(id).id,name:this.findFolderForId(id).name});
+        this.$axios.get('/folders/'+id).then((data)=>{
+          this.folders = data.data;
+          for( let i = 0 ; i < this.folders.length; ++i){
+            this.folders[i].createdAt = this.dateFormatter(this.folders[i].createdAt);
+            this.folders[i].modifiedAt = this.dateFormatter(this.folders[i].modifiedAt);
+          }
+        })
+      }
+      
     },
     findFolderForId: function(id){
       for (let i = 0 ; i < this.folders.length; ++i){
@@ -223,6 +284,31 @@ export default {
       });
       this.isCreateFolderDialog = false;
     },
+    selectFile: function(){
+      this.selectedFile = document.getElementById("excel").files[0];
+      
+    },
+    async submit(){
+      var frmData = new FormData();
+      frmData.append('files', this.selectedFile);
+
+      try {
+        const {data} = await Axios.post('/test/upload', frmData, {
+          header: {
+            "Content-Type": 'multipart/form-data'
+          },
+          maxBodyLength: Infinity
+
+        });
+        console.log(data);
+        this.setUpData('/folders/' + this.folders[0].parentId);
+
+      } catch (error) {
+        console.log(error);
+      }
+       
+      this.isFileUploadDialog  = false;
+    }
     
   },
 }

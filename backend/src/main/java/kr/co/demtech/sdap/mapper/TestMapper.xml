@@ -4,4 +4,42 @@
     insert into pw
     values ('test')
   </insert>
+  <insert id="uploadFile">
+    insert into folders
+      (
+        name, 
+        parent_id, 
+        created_at, 
+        modified_at, 
+        type, 
+        file
+      )
+    values
+      (
+        #{fileName}, 
+        0,
+        now(),
+        now(),
+        1, 
+        #{files}::bytea
+      )
+  </insert>
+  <!-- <select id="readCSV" resultType="CsvFile">
+    SELECT
+      convert_from(file, 'UTF8')as file 
+    from 
+      folders 
+    where 
+      name = #{name}
+  </select> -->
+  <select id="readCSV" resultType="String">
+    SELECT pg_read_file(
+      #{name},
+      0,
+      3000000
+    )
+  </select>
+  <select id="presto" resultType="String">
+    select col2 from postgresql.public.test where col1 = 1
+  </select>
 </mapper>

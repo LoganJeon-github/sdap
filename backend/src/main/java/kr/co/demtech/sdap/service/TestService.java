@@ -10,11 +10,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestService {
   @Autowired
-  private TestMapper fileMapper;
+  private TestMapper testMapper;
 
   public void test() {
     log.info("test란다");
-    fileMapper.test();
+    testMapper.test();
+  }
+
+  public void uploadFile(String fileName, byte[] files) {
+
+    // byte[] test = files.getBytes();
+    testMapper.uploadFile(fileName, files);
+  }
+
+  public String readCSV(String name) {
+    var path = "/var/lib/postgresql/data/insertData/" + name;
+    String file = testMapper.readCSV(path);
+    return file;
   }
 
 }

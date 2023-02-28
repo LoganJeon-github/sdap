@@ -4,22 +4,29 @@
       <v-file-input
         label="File input"
         variant="solo"
-        @change="readFile"
+        @change="selectFile"
+        id="excel"
       >
       </v-file-input>
-      <!-- <vue-excel-editor
+      <v-btn 
+        elevation="0" 
+        icon="mdi-folder-plus"
+        @click="submit"
+      ></v-btn>
+      <vue-excel-editor
         v-if="jsonData != null"
         v-model="jsonData"
         :height="excelHeight"
         no-mouse-scroll
         width="200%"
       >
-      </vue-excel-editor> -->
+      </vue-excel-editor>
     </div>
   </main>
 </template>
 
 <script>
+import Axios from "axios";
 import * as XLSX from "xlsx";
 
 export default {
@@ -31,6 +38,8 @@ export default {
       keyS: null, 
       valuesMaxLength : null,
       excelHeight: "",
+      selectedFile: null,
+      selectedFileDir:'',
     }
   },
   setup() {
@@ -39,7 +48,37 @@ export default {
     
   },
   methods: {
-    readFile(event) {
+    async submit(){
+      var frmData = new FormData();
+      frmData.append('files', this.selectedFile);
+      // this.$axios.post('/test/upload', frmData,{
+      //   headers:{
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }).then((response)=>{
+      //   console.log(response);
+      // }).catch((err)=>{
+      //   console.lor(err);
+      // })
+      try {
+        const {data} = await Axios.post('/test/upload', frmData, {
+          header: {
+            "Content-Type": 'multipart/form-data'
+          },
+          maxBodyLength: Infinity
+
+        });
+        console.log(data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    selectFile: function(){
+      this.selectFile = document.getElementById("excel").files[0];
+      
+    },
+    readFile: function(event) {
       const file = event.target.files[0];
       const reader = new FileReader();
       let tmpResult = {};
@@ -83,6 +122,7 @@ export default {
       console.log('json 변환 끝');
       return tempJson;
     },
+
   }
 }
 </script>

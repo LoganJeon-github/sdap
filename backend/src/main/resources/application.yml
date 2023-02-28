@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 18080
   error:
     include-message: always
 
@@ -19,8 +19,14 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
+  servlet:
+    multipart:
+      maxFileSize: -1
+      maxRequestSize: -1
 
 mybatis:
+  mapper-locations:
+    - kr/co/demtech/sdap/mapper/*.xml
   type-aliases-package: kr.co.demtech.sdap.domain
   configuration:
     map-underscore-to-camel-case: true
